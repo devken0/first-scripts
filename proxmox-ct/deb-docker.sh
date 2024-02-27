@@ -21,6 +21,7 @@ echo "Changed timeone"
 
 usermod -aG sudo $USERNAME
 newgrp sudo
+exit
 echo "Added user to sudo group" 
 
 mkdir /home/$USERNAME/.ssh
@@ -46,6 +47,7 @@ sh get-docker.sh
 # Set permissions
 sudo usermod -aG docker $USERNAME
 newgrp docker
+exit
 
 # Clone compose repository
 echo "Cloning docker compose repository..."
