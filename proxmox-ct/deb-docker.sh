@@ -11,7 +11,7 @@ apt update && apt upgrade -y
 
 # Installing essential packages
 echo "Installing essential packages..."
-apt install sudo wget curl git -y  
+apt install sudo wget curl neovim git -y  
 
 # Configure system settings
 echo "Configuring system settings..."
@@ -24,6 +24,7 @@ newgrp sudo
 echo "Added user to sudo group" 
 
 mkdir /home/$USERNAME/.ssh
+chown -R $USERNAME:$USERNAME /home/$USERNAME/.ssh
 sed -i -E 's/^(#)?PermitRootLogin (prohibit-password|yes)/PermitRootLogin no/' /etc/ssh/sshd_config
 sed -i -E 's/^(#)?PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config
 systemctl restart ssh
@@ -48,7 +49,9 @@ newgrp docker
 
 # Clone compose repository
 echo "Cloning docker compose repository..."
+cd /home/$USERNAME/
 git clone https://github.com/devken0/docker-homelab.git
+chown -R $USERNAME:$USERNAME docker-homelab
 git config --global user.name "$USERNAME"
 git config --global user.email "homelab.ken@gmail.com"
 
