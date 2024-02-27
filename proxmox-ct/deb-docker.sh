@@ -2,9 +2,8 @@
 
 # Adding new user to the system
 echo "Creating standard user..."
-echo "Type username:"
-read username
-adduser $USERNAME
+read -p "Enter preferred username: " USERNAME
+adduser "$USERNAME"
 
 # Update package lists and upgrade installed packages
 echo "Updating package lists and upgrading installed packages..."
