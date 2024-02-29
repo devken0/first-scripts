@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
 
+internal_ip=$(hostname -I)
+
 # Adding new user to the system
 echo "Creating standard user..."
-read -p "Enter preferred username: " USERNAME
-adduser "$USERNAME"
+read -p "Enter preferred username: " username
+adduser "$username"
 
 # Update package lists and upgrade installed packages
 echo "Updating package lists and upgrading installed packages..."
@@ -19,14 +21,14 @@ echo "Configuring system settings..."
 timedatectl set-timezone Asia/Manila
 echo "Changed timeone"
 
-usermod -aG sudo $USERNAME
+usermod -aG sudo $username
 newgrp sudo
 exit
-echo "Granted root privileges to $USERNAME" 
+echo "Granted root privileges to $username" 
 
 echo "Type new password for root"
 passwd
-rsync --archive --chown=$USERNAME:$USERNAME ~/.ssh /home/$USERNAME
+rsync --archive --chown=$username:$username ~/.ssh /home/$username
 sed -i -E 's/^(#)?PermitRootLogin (prohibit-password|yes)/PermitRootLogin no/' /etc/ssh/sshd_config
 sed -i -E 's/^(#)?PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config
 systemctl restart ssh
@@ -46,16 +48,21 @@ echo "Installing docker..."
 curl -fsSL https://get.docker.com -o get-docker.sh
 sh get-docker.sh
 # Set permissions
-sudo usermod -aG docker $USERNAME
+sudo usermod -aG docker $username
 newgrp docker
 exit
 
 # Clone compose repository
 echo "Cloning docker compose repository..."
-cd /home/$USERNAME/
+cd /home/$username/
 git clone https://github.com/devken0/docker-homelab.git
-chown -R $USERNAME:$USERNAME docker-homelab
-git config --global user.name "$USERNAME"
+chown -R $username:$username docker-homelab
+git config --global user.name "$username"
 git config --global user.email "homelab.ken@gmail.com"
+newgrp docker 
+su $username
+cd ~/docker-homelab/dockge
+docker compose up -d
+exit
 
-echo "Post-installation tasks completed. Please relogin or reboot, SSH using $USERNAME"
+echo "Post-installation tasks completed. Please relogin or reboot, SSH auth enabled for $username. Dockge is running at http://$internal_ip:5001 "
