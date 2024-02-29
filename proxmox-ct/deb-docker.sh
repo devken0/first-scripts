@@ -11,7 +11,7 @@ apt update && apt upgrade -y
 
 # Installing essential packages
 echo "Installing essential packages..."
-apt install sudo wget curl neovim git -y  
+apt install sudo wget curl neovim git rsync -y  
 
 # Configure system settings
 echo "Configuring system settings..."
@@ -22,15 +22,11 @@ echo "Changed timeone"
 usermod -aG sudo $USERNAME
 newgrp sudo
 exit
-echo "Added user to sudo group" 
+echo "Granted root privileges to $USERNAME" 
 
 echo "Type new password for root"
 passwd
-rm -r /root/.ssh/authorized_keys
-mkdir /home/$USERNAME/.ssh
-touch /home/$USERNAME/.ssh/authorized_keys
-chown -R $USERNAME:$USERNAME /home/$USERNAME/.ssh
-chown $USERNAME:$USERNAME /home/$USERNAME/.ssh/authorized_keys
+rsync --archive --chown=$USERNAME:$USERNAME ~/.ssh /home/$USERNAME
 sed -i -E 's/^(#)?PermitRootLogin (prohibit-password|yes)/PermitRootLogin no/' /etc/ssh/sshd_config
 sed -i -E 's/^(#)?PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config
 systemctl restart ssh
@@ -62,4 +58,4 @@ chown -R $USERNAME:$USERNAME docker-homelab
 git config --global user.name "$USERNAME"
 git config --global user.email "homelab.ken@gmail.com"
 
-echo "Post-installation tasks completed. Please relogin or reboot."
+echo "Post-installation tasks completed. Please relogin or reboot, SSH using $USERNAME"
