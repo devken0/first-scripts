@@ -24,8 +24,13 @@ newgrp sudo
 exit
 echo "Added user to sudo group" 
 
+echo "Type new password for root"
+passwd
+rm -r /root/.ssh/authorized_keys
 mkdir /home/$USERNAME/.ssh
+touch /home/$USERNAME/.ssh/authorized_keys
 chown -R $USERNAME:$USERNAME /home/$USERNAME/.ssh
+chown $USERNAME:$USERNAME /home/$USERNAME/.ssh/authorized_keys
 sed -i -E 's/^(#)?PermitRootLogin (prohibit-password|yes)/PermitRootLogin no/' /etc/ssh/sshd_config
 sed -i -E 's/^(#)?PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config
 systemctl restart ssh
