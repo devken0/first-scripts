@@ -33,6 +33,7 @@ sed -i -E 's/^(#)?PermitRootLogin (prohibit-password|yes)/PermitRootLogin no/' /
 sed -i -E 's/^(#)?PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config
 systemctl restart ssh
 echo "Secured ssh access"
+echo "SSH auth disabled for root, enabled for $USERNAME."
 
 # Additional configurations...
 # Install Docker Engine
@@ -59,10 +60,16 @@ git clone https://github.com/devken0/docker-homelab.git
 chown -R $username:$username docker-homelab
 git config --global user.name "$username"
 git config --global user.email "homelab.ken@gmail.com"
-newgrp docker 
-su $username
-cd ~/docker-homelab/dockge
-docker compose up -d
+
+# Add cron job to crontab
+su $USERNAME
+cd /home/$USERNAME/docker-homelab
+crontab -l > existing-crontab
+cat crontab >> existing-crontab
+crontab existing-crontab
+rm existing-crontab
+echo "Cron jobs added successfully."
+
 exit
 
-echo "Post-installation tasks completed. Please relogin or reboot, SSH auth enabled for $username. Dockge is running at http://$internal_ip:5001 "
+echo "Post-installation tasks completed. Please relogin or reboot."
