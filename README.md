@@ -1,6 +1,4 @@
-## Post install scripts
-
-### Proxmox Containers
+## Proxmox Containers Post Install Scripts
 
 Debian with Docker
 
@@ -8,7 +6,7 @@ Debian with Docker
 bash -c "$(wget -qLO - https://github.com/devken0/first-scripts/raw/main/proxmox-ct/debian-docker.sh)"
 ```
 
-### On Premise
+## On Premise (Bare-metal) Post Install Scripts
 
 ```bash
 # Proxmox Shell
