@@ -47,21 +47,21 @@ echo "Installing docker..."
 curl -fsSL https://get.docker.com -o get-docker.sh
 sh get-docker.sh
 # Set permissions
-sudo usermod -aG docker $username
+usermod -aG docker $username
 
 # Clone compose repository
-su $username
 echo "Cloning docker compose repository..."
-cd /home/$username/
+cd /home/$username
 git clone https://github.com/devken0/docker-homelab.git
+chown -R $username:$username docker-homelab
 git config --global user.name "$username"
 git config --global user.email "homelab.ken@gmail.com"
 
 # Add cron job to crontab
 cd /home/$username/docker-homelab
-crontab -l > existing-crontab
+crontab -u $username -l > existing-crontab
 cat crontab >> existing-crontab
-crontab existing-crontab
+crontab -u $username existing-crontab
 rm existing-crontab
 echo "Cron jobs added successfully."
 
