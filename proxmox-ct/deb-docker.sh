@@ -22,8 +22,6 @@ timedatectl set-timezone Asia/Manila
 echo "Changed timeone"
 
 usermod -aG sudo $username
-newgrp sudo
-exit
 echo "Granted root privileges to $username" 
 
 echo "Type new password for root"
@@ -50,8 +48,6 @@ curl -fsSL https://get.docker.com -o get-docker.sh
 sh get-docker.sh
 # Set permissions
 sudo usermod -aG docker $username
-newgrp docker
-exit
 
 # Clone compose repository
 echo "Cloning docker compose repository..."
