@@ -10,7 +10,9 @@ bash -c "$(wget -qLO - https://github.com/devken0/first-scripts/raw/main/proxmox
 Alpine with Docker
 
 ```bash
-bash -c "$(wget -qLO - https://github.com/devken0/first-scripts/raw/main/proxmox-ct/alpine-docker.sh)"
+wget -O alpine-docker.sh https://raw.githubusercontent.com/devken0/first-scripts/main/proxmox-ct/alpine-docker.sh
+chmod +x alpine-docker.sh
+./alpine-docker.sh
 ```
 
 ## On Premise (Bare-metal) Post Install Scripts
