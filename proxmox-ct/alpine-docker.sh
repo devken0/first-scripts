@@ -1,6 +1,6 @@
-#!/usr/bin/env bash
+#!/usr/bin/env ash
 
-internal_ip=$(hostname -I)
+internal_ip=$(hostname -i)
 # Initial setup
 setup-alpine
 
