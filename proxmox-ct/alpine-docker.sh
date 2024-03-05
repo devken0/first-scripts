@@ -20,7 +20,7 @@ apk add docker docker-compose
 # Start and enable Docker
 echo "Docker enabled at startup."
 rc-update add docker boot
-service docker start
+rc-service docker start
 docker --version
 docker info
 
@@ -32,6 +32,7 @@ adduser $username docker
 echo "Installing sudo..."
 apk add sudo
 addgroup $username wheel
+visudo
 echo "Granted root privileges to $username" 
 
 sed -i -E 's/^(#)?PermitRootLogin (prohibit-password|yes)/PermitRootLogin no/' /etc/ssh/sshd_config
