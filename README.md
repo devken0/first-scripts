@@ -4,6 +4,13 @@ Debian with Docker
 
 ```bash
 bash -c "$(wget -qLO - https://github.com/devken0/first-scripts/raw/main/proxmox-ct/debian-docker.sh)"
+
+```
+
+Alpine with Docker
+
+```bash
+bash -c "$(wget -qLO - https://github.com/devken0/first-scripts/raw/main/proxmox-ct/alpine-docker.sh)"
 ```
 
 ## On Premise (Bare-metal) Post Install Scripts
