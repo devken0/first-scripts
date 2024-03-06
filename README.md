@@ -1,10 +1,15 @@
 ## Proxmox Containers Post Install Scripts
 
+Debian with Cockpit
+
+```bash
+bash -c "$(wget -qLO - https://github.com/devken0/first-scripts/raw/main/proxmox-ct/debian-cockpit.sh)"
+```
+
 Debian with Docker
 
 ```bash
 bash -c "$(wget -qLO - https://github.com/devken0/first-scripts/raw/main/proxmox-ct/debian-docker.sh)"
-
 ```
 
 Alpine with Docker
