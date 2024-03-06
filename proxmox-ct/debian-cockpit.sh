@@ -41,6 +41,7 @@ echo "deb http://deb.debian.org/debian ${VERSION_CODENAME}-backports main" > \
 apt update
 # Install Cockpit
 apt install -t ${VERSION_CODENAME}-backports cockpit
+systemctl enable cockpit --now
 
 # Install Cockpit Applications
 curl -sSL https://repo.45drives.com/setup | sudo bash
