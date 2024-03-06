@@ -40,13 +40,9 @@ apt install cockpit
 systemctl enable cockpit --now
 
 # Install Cockpit Applications
-curl -sSL https://repo.45drives.com/setup | sudo bash
-apt update
-apt install cockpit-identities
 curl -sSL https://repo.45drives.com/setup -o setup-repo.sh
 bash setup-repo.sh
-apt install cockpit-navigator
 apt-get update
-apt install cockpit-file-sharing
+apt install cockpit-navigator cockpit-identities cockpit-file-sharing
 
 echo "Cockpit Web Interface is available at https://$internal_ip:$cockpit_port. Please relogin or reboot.."
