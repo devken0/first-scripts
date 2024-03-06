@@ -1,5 +1,11 @@
 ## Proxmox Containers Post Install Scripts
 
+Ubuntu with Cockpit
+
+```bash
+bash -c "$(wget -qLO - https://github.com/devken0/first-scripts/raw/main/proxmox-ct/ubuntu-cockpit.sh)"
+```
+
 Debian with Cockpit
 
 ```bash
