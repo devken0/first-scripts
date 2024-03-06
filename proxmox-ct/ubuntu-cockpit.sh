@@ -50,4 +50,4 @@ apt install cockpit-navigator
 apt-get update
 apt install cockpit-file-sharing
 
-echo "Cockpit Web Interface is available at $internal_ip:$cockpit_port. Please relogin or reboot.."
+echo "Cockpit Web Interface is available at https://$internal_ip:$cockpit_port. Please relogin or reboot.."
