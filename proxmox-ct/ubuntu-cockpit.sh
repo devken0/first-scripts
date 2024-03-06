@@ -35,9 +35,8 @@ echo "Secured ssh access"
 echo "SSH auth disabled for root, enabled for $username."
 
 # Additional configurations...
-. /etc/os-release
 # Install Cockpit
-apt install -t ${VERSION_CODENAME}-backports cockpit
+apt install cockpit
 systemctl enable cockpit --now
 
 # Install Cockpit Applications
