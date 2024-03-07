@@ -8,7 +8,7 @@ CONFIG_FILE="/etc/netplan/00-installer-config.yaml"
 
 # Functions
 
-getting_variables(){
+get_variables(){
     read -p "Preferred custom ssh port: " ssh_port
     read -p "Preferred hostname: " new_hostname 
     read -p "Preferred hostname alias: " new_alias
@@ -38,7 +38,12 @@ install_essential_packages(){
     curl -sSL https://repo.45drives.com/setup -o setup-repo.sh
     bash setup-repo.sh
     sudo apt-get update
-    sudo apt install cockpit-navigator cockpit-identities cockpit-file-sharing cockpit-machines cockpit-sensors -y || { echo "Failed to install cockpit apps"; exit 1; } 
+    sudo apt install cockpit-navigator cockpit-identities cockpit-file-sharing cockpit-machines -y || { echo "Failed to install cockpit apps"; exit 1; } 
+    wget https://github.com/ocristopfer/cockpit-sensors/releases/latest/download/cockpit-sensors.tar.xz && \
+  tar -xf cockpit-sensors.tar.xz cockpit-sensors/dist && \
+  mv cockpit-sensors/dist /usr/share/cockpit/sensors && \
+  rm -r cockpit-sensors && \
+  rm cockpit-sensors.tar.xz
 
     curl -o setup-repos.sh https://raw.githubusercontent.com/webmin/webmin/master/setup-repos.sh
     sh setup-repos.sh
@@ -59,9 +64,11 @@ secure_system() {
     # Adding ssh key to github
     ssh-keygen -t ed25519 || { echo "Failed to generate SSH key"; exit 1; }
     cat ~/.ssh/id_ed25519.pub
-    read -rns1 -p "Please copy the generated SSH key to GitHub, then press any key to continue."; echo ""
+    read -rn1 -p "Please copy the generated SSH key to GitHub, then press any key to continue."; echo ""
     # Configuring firewall 
-    sudo ufw allow $ssh_port/tcp,10000/tcp,9090/tcp || { echo "Failed to add firewall rules"; exit 1; }
+    sudo ufw allow "$ssh_port/tcp" || { echo "Failed to add firewall rules"; exit 1; }
+    sudo ufw allow 9090/tcp || { echo "Failed to add firewall rules"; exit 1; }
+    sudo ufw allow 10000/tcp || { echo "Failed to add firewall rules"; exit 1; }
     # Configuring ssh
     sudo sed -i -E "s/^(#)?Port 22/Port $ssh_port/" /etc/ssh/sshd_config
     sudo sed -i -E 's/^(#)?PermitRootLogin (prohibit-password|yes)/PermitRootLogin no/' /etc/ssh/sshd_config
@@ -72,7 +79,7 @@ secure_system() {
     sudo apt-get install fail2ban -y || { echo "Failed to install fail2ban"; exit 1; }
     sudo systemctl enable fail2ban --now || { echo "Failed to enable fail2ban"; exit 1; }
     sudo cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
-    read -rns1 -p "Local jails configuration for fail2ban will be opened, press any key to continue."; echo ""
+    read -rn1 -p "Local jails configuration for fail2ban will be opened, press any key to continue."; echo ""
     sudo nvim /etc/fail2ban/jail.local
     sudo systemctl restart fail2ban || { echo "Failed to restart fail2ban"; exit 1; }
     sudo fail2ban-client status
@@ -103,6 +110,9 @@ install_docker() {
     git clone $compose_repo || { echo "Failed to clone repository"; exit 1; }
     cd ~/docker-homelab
     docker compose up -d || { echo "Failed to start docker containers"; exit 1; }
+}
+
+setup_github_backup(){
 }
 
 configure_system_settings() {
@@ -220,6 +230,8 @@ main() {
        echo "$(tput setaf 1)This script must be run as root.$(tput sgr0)" 
        exit 1
     fi
+    get_variables
+    echo "$(tput setaf 2)Done getting user info.$(tput sgr0)"
     update_system
     echo "$(tput setaf 2)Done updating system.$(tput sgr0)"
     install_essential_packages
@@ -232,6 +244,8 @@ main() {
     echo "$(tput setaf 2)Done securing system.$(tput sgr0)"
     install_docker
     echo "$(tput setaf 2)Done installing docker.$(tput sgr0)"
+    setup_github_backup
+    echo "$(tput setaf 2)Done setting up github backups.$(tput sgr0)"
     configure_system_settings
     echo "$(tput setaf 2)Done configuring system.$(tput sgr0)"
     set_bash_aliases
