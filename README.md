@@ -37,3 +37,9 @@ bash -c "$(wget -qLO - https://github.com/tteck/Proxmox/raw/main/misc/microcode.
 bash -c "$(wget -qLO - https://github.com/tteck/Proxmox/raw/main/misc/host-backup.sh)"
 ```
 
+OpenMediaVault
+
+```bash
+wget -O - https://github.com/OpenMediaVault-Plugin-Developers/packages/raw/master/install | bash
+```
+
