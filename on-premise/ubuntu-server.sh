@@ -210,23 +210,23 @@ EOF
 
 main() {
     if [[ $EUID -ne 0 ]]; then
-       echo -e "\e[31mThis script must be run as root\e[0m" 
+       echo "$(tput setaf 1)This script must be run as root.$(tput sgr0)" 
        exit 1
     fi
     update_system
-    echo -e "\e[32mDone updating system.\e[0m"
+    echo "$(tput setaf 2)Done updating system.$(tput sgr0)"
     install_essential_packages
-    echo -e "\e[32mDone installation of packages.\e[0m"
+    echo "$(tput setaf 2)Done installation of packages.$(tput sgr0)"
     secure_system
-    echo -e "\e[32mDone securing system.\e[0m"
+    echo "$(tput setaf 2)Done securing system.$(tput sgr0)"
     install_docker
-    echo -e "\e[32mDone installing docker.\e[0m"
+    echo "$(tput setaf 2)Done installing docker.$(tput sgr0)"
     configure_system_settings
-    echo -e "\e[32mDone configuring system.\e[0m"
+    echo "$(tput setaf 2)Done configuring system.$(tput sgr0)"
     set_bash_aliases
-    echo -e "\e[32mDone saving bash aliases.\e[0m"
+    echo "$(tput setaf 2)Done saving bash aliases.$(tput sgr0)"
     # Additional tasks...
-    echo "Before you go..."
+    echo -n "Before you go..."
     for i in {1..5}; do
         echo -n "."
         sleep 1
@@ -235,9 +235,9 @@ main() {
     sudo ufw delete allow 22/tcp 
     sudo ufw reload
     sudo ufw enable || { echo "Failed to configure firewall"; exit 1; }
-    echo "Cockpit can be accessed at http://$internal_ip:9090"
-    echo -n "SSH is now running at port 14."
-    echo -e "\e[34mTasks complete, please relogin or reboot.\e[0m"
+    echo "$(tput setaf 6)Cockpit can be accessed at http://$internal_ip:9090$(tput sgr0)"
+    echo "$(tput setaf 6)SSH is now running at port 14.$(tput sgr0)"
+    echo "$(tput setaf 4)Tasks complete, please relogin or reboot.$(tput sgr0)"
 }
 
 main "$@"
