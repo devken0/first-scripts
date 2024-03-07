@@ -13,7 +13,7 @@ get_variables(){
     read -p "Preferred custom ssh port: " ssh_port
     read -p "Preferred hostname: " new_hostname 
     read -p "Preferred hostname alias: " new_alias
-    read -p "Please type in preferred origin urls for cockpit (separated by spaces): " origins
+    read -p "Please type in preferred origin urls for cockpit (separated by spaces, https only): " origins
     read -p "Please enter ssh repository url for cloning docker compose files: " compose_repo
 }
 
@@ -172,7 +172,7 @@ EOF
     fi
     
     # Add wakeonlan: true under the specified interface
-    sudo sed -i "/$INTERFACE:/a \ \ \ \ wakeonlan: true" "$CONFIG_FILE"
+    sudo sed -i "/$INTERFACE:/a \ \ \ \   wakeonlan: true" "$CONFIG_FILE"
     
     # Apply the Netplan configuration
     sudo netplan apply || { echo "Failed to apply netplan changes"; exit 1; }
@@ -205,19 +205,19 @@ alias dinfo='docker info'                  # Display Docker system-wide informat
 alias lzd='lazydocker'                     # lazydocker
 
 # Docker Compose aliases
-alias dc='docker-compose'                         # Shortcut for docker-compose
-alias dcu='docker-compose up'                     # Start Docker Compose services
-alias dcd='docker-compose down'                   # Stop Docker Compose services
-alias dcl='docker-compose logs'                   # View logs of Docker Compose services
-alias dcps='docker-compose ps'                    # List Docker Compose services
-alias dcr='docker-compose run --rm'               # Run a one-off command in a Docker Compose service
-alias dcstop='docker-compose stop'                # Stop Docker Compose services
-alias dcrestart='docker-compose restart'          # Restart Docker Compose services
-alias dcbuild='docker-compose build'              # Build Docker Compose services
-alias dcexec='docker-compose exec'                # Execute a command in a running Docker Compose service
-alias dcdown='docker-compose down --volumes'      # Stop and remove Docker Compose services along with volumes
-alias dcupb='docker-compose up --build'           # Start Docker Compose services and rebuild images
-alias dclogs='docker-compose logs -f'             # View real-time logs of Docker Compose services
+alias dc='docker compose'                         # Shortcut for docker-compose
+alias dcu='docker compose up'                     # Start Docker Compose services
+alias dcd='docker compose down'                   # Stop Docker Compose services
+alias dcl='docker compose logs'                   # View logs of Docker Compose services
+alias dcps='docker compose ps'                    # List Docker Compose services
+alias dcr='docker compose run --rm'               # Run a one-off command in a Docker Compose service
+alias dcstop='docker compose stop'                # Stop Docker Compose services
+alias dcrestart='docker compose restart'          # Restart Docker Compose services
+alias dcbuild='docker compose build'              # Build Docker Compose services
+alias dcexec='docker compose exec'                # Execute a command in a running Docker Compose service
+alias dcdown='docker compose down --volumes'      # Stop and remove Docker Compose services along with volumes
+alias dcupb='docker compose up --build'           # Start Docker Compose services and rebuild images
+alias dclogs='docker compose logs -f'             # View real-time logs of Docker Compose services
 EOF
     source ~/.bash_aliases
 }
