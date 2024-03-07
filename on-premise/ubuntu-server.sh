@@ -52,12 +52,10 @@ install_essential_packages(){
     # Add prompt to user if would like to add any more packages
 }
 
-rclone_setup(){
-
-}
-idrive_setup(){
-
-}
+#rclone_setup(){
+#}
+#idrive_setup(){
+#}
 
 secure_system() {
     echo "Securing the system..."
@@ -112,8 +110,8 @@ install_docker() {
     docker compose up -d || { echo "Failed to start docker containers"; exit 1; }
 }
 
-setup_github_backup(){
-}
+#setup_github_backup(){
+#}
 
 configure_system_settings() {
     echo "Configuring system settings..."
@@ -236,16 +234,16 @@ main() {
     echo "$(tput setaf 2)Done updating system.$(tput sgr0)"
     install_essential_packages
     echo "$(tput setaf 2)Done installation of packages.$(tput sgr0)"
-    rclone_setup
-    echo "$(tput setaf 2)Done setting up rclone.$(tput sgr0)"
-    idrive_setup
-    echo "$(tput setaf 2)Done setting up idrive.$(tput sgr0)"
+    #rclone_setup
+    #echo "$(tput setaf 2)Done setting up rclone.$(tput sgr0)"
+    #idrive_setup
+    #echo "$(tput setaf 2)Done setting up idrive.$(tput sgr0)"
     secure_system
     echo "$(tput setaf 2)Done securing system.$(tput sgr0)"
     install_docker
     echo "$(tput setaf 2)Done installing docker.$(tput sgr0)"
-    setup_github_backup
-    echo "$(tput setaf 2)Done setting up github backups.$(tput sgr0)"
+    #setup_github_backup
+    #echo "$(tput setaf 2)Done setting up github backups.$(tput sgr0)"
     configure_system_settings
     echo "$(tput setaf 2)Done configuring system.$(tput sgr0)"
     set_bash_aliases
