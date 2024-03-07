@@ -9,6 +9,7 @@ CONFIG_FILE="/etc/netplan/00-installer-config.yaml"
 # Functions
 
 get_variables(){
+    read -p "Type your standard username (non-root): " username
     read -p "Preferred custom ssh port: " ssh_port
     read -p "Preferred hostname: " new_hostname 
     read -p "Preferred hostname alias: " new_alias
@@ -60,7 +61,7 @@ install_essential_packages(){
 secure_system() {
     echo "Securing the system..."
     # Adding ssh key to github
-    sudo -u $USER ssh-keygen -t ed25519 || { echo "Failed to generate SSH key"; exit 1; }
+    sudo -u $username ssh-keygen -t ed25519 || { echo "Failed to generate SSH key"; exit 1; }
     cat ~/.ssh/id_ed25519.pub
     read -rn1 -p "Please copy the generated SSH key to GitHub, then press any key to continue."; echo ""
     # Configuring firewall 
@@ -72,7 +73,7 @@ secure_system() {
     sudo sed -i -E 's/^(#)?PermitRootLogin (prohibit-password|yes)/PermitRootLogin no/' /etc/ssh/sshd_config
     sudo sed -i -E 's/^(#)?PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config
     echo "Secured ssh access"
-    echo "SSH auth disabled for root, enabled for $USER."
+    echo "SSH auth disabled for root, enabled for $username."
     # Configuring fail2ban
     sudo apt-get install fail2ban -y || { echo "Failed to install fail2ban"; exit 1; }
     sudo systemctl enable fail2ban --now || { echo "Failed to enable fail2ban"; exit 1; }
@@ -98,7 +99,7 @@ install_docker() {
     curl -fsSL https://get.docker.com -o get-docker.sh
     sudo sh get-docker.sh || { echo "Failed to docker"; exit 1; }
     # Setting permissions
-    sudo usermod -aG docker $USER
+    sudo usermod -aG docker $username
     # Docker TUI
     curl https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh | bash || { echo "Failed to install lazydocker"; exit 1; }
     # Setting up git
