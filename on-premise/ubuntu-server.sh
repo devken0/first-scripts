@@ -210,25 +210,23 @@ EOF
 
 main() {
     if [[ $EUID -ne 0 ]]; then
-       echo "This script must be run as root" 
+       echo "\e[31mThis script must be run as root\e[0m" 
        exit 1
     fi
     update_system
-    echo "Done updating system."
+    echo "\e[32mDone updating system.\e[0m"
     install_essential_packages
-    echo "Done installation of packages."
+    echo "\e[32mDone installation of packages.\e[0m"
     secure_system
-    echo "Done securing system."
+    echo "\e[32mDone securing system.\e[0m"
     install_docker
-    echo "Done installing docker."
+    echo "\e[32mDone installing docker.\e[0m"
     configure_system_settings
-    echo "Done configuring system."
+    echo "\e[32mDone configuring system.\e[0m"
     set_bash_aliases
-    echo "Done saving bash aliases."
+    echo "\e[32mDone saving bash aliases.\e[0m"
     # Additional tasks...
     echo "Before you go..."
-    echo "Cockpit can be accessed at http://$internal_ip:9090"
-    echo -n "SSH is now running at port 14."
     for i in {1..5}; do
         echo -n "."
         sleep 1
@@ -237,7 +235,9 @@ main() {
     sudo ufw delete allow 22/tcp 
     sudo ufw reload
     sudo ufw enable || { echo "Failed to configure firewall"; exit 1; }
-    echo "Tasks complete, please relogin or reboot."
+    echo "Cockpit can be accessed at http://$internal_ip:9090"
+    echo -n "SSH is now running at port 14."
+    echo "\e[34mTasks complete, please relogin or reboot.\e[0m"
 }
 
 main "$@"
