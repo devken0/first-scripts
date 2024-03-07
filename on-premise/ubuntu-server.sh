@@ -102,6 +102,10 @@ install_docker() {
     sudo usermod -aG docker $username
     # Docker TUI
     curl https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh | bash || { echo "Failed to install lazydocker"; exit 1; }
+    # Preparing for container stack
+    # Pihole
+    sudo systemctl disable systemd-resolved
+    sudo systemctl stop systemd-resolved
     touch ~/.bashrc
     echo "export PATH="/$HOME/.local/bin:$PATH"" | tee -a ~/.bashrc
     # Setting up git
