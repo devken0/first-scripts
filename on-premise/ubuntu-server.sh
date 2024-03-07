@@ -102,7 +102,8 @@ install_docker() {
     sudo usermod -aG docker $username
     # Docker TUI
     curl https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh | bash || { echo "Failed to install lazydocker"; exit 1; }
-    echo "export PATH="/$HOME/.local/bin:$PATH"" | tee -a ~/.bashrc
+    touch ~/.bash_profile
+    echo "export PATH="/$HOME/.local/bin:$PATH"" | tee -a ~/.bash_profile
     # Setting up git
     cd ~
     git config --global user.name "ken"
@@ -172,6 +173,7 @@ EOF
         exit 0
     fi
     
+    # Add wakeonlan: true under the specified interface
     # Add wakeonlan: true under the specified interface
     sudo sed -i "/$INTERFACE:/a \ \ \ \   wakeonlan: true" "$CONFIG_FILE"
     
@@ -246,7 +248,6 @@ main() {
     echo "$(tput setaf 2)Done installing docker.$(tput sgr0)"
     #setup_github_backup
     #echo "$(tput setaf 2)Done setting up github backups.$(tput sgr0)"
-    configure_system_settings
     echo "$(tput setaf 2)Done configuring system.$(tput sgr0)"
     set_bash_aliases
     echo "$(tput setaf 2)Done saving bash aliases.$(tput sgr0)"
