@@ -60,7 +60,7 @@ install_essential_packages(){
 secure_system() {
     echo "Securing the system..."
     # Adding ssh key to github
-    ssh-keygen -t ed25519 || { echo "Failed to generate SSH key"; exit 1; }
+    sudo -u $USER ssh-keygen -t ed25519 || { echo "Failed to generate SSH key"; exit 1; }
     cat ~/.ssh/id_ed25519.pub
     read -rn1 -p "Please copy the generated SSH key to GitHub, then press any key to continue."; echo ""
     # Configuring firewall 
