@@ -102,6 +102,7 @@ install_docker() {
     sudo usermod -aG docker $username
     # Docker TUI
     curl https://raw.githubusercontent.com/jesseduffield/lazydocker/master/scripts/install_update_linux.sh | bash || { echo "Failed to install lazydocker"; exit 1; }
+    echo "export PATH="/$HOME/.local/bin:$PATH"" | tee -a ~/.bashrc
     # Setting up git
     cd ~
     git config --global user.name "ken"
