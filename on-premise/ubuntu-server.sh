@@ -225,10 +225,10 @@ EOF
 # Main script
 
 main() {
-    if [[ $EUID -ne 0 ]]; then
-       echo "$(tput setaf 1)This script must be run as root.$(tput sgr0)" 
-       exit 1
-    fi
+    #if [[ $EUID -ne 0 ]]; then
+    #   echo "$(tput setaf 1)This script must be run as root.$(tput sgr0)" 
+    #   exit 1
+    #fi
     get_variables
     echo "$(tput setaf 2)Done getting user info.$(tput sgr0)"
     update_system
