@@ -210,21 +210,21 @@ EOF
 
 main() {
     if [[ $EUID -ne 0 ]]; then
-       echo "\e[31mThis script must be run as root\e[0m" 
+       echo -e "\e[31mThis script must be run as root\e[0m" 
        exit 1
     fi
     update_system
-    echo "\e[32mDone updating system.\e[0m"
+    echo -e "\e[32mDone updating system.\e[0m"
     install_essential_packages
-    echo "\e[32mDone installation of packages.\e[0m"
+    echo -e "\e[32mDone installation of packages.\e[0m"
     secure_system
-    echo "\e[32mDone securing system.\e[0m"
+    echo -e "\e[32mDone securing system.\e[0m"
     install_docker
-    echo "\e[32mDone installing docker.\e[0m"
+    echo -e "\e[32mDone installing docker.\e[0m"
     configure_system_settings
-    echo "\e[32mDone configuring system.\e[0m"
+    echo -e "\e[32mDone configuring system.\e[0m"
     set_bash_aliases
-    echo "\e[32mDone saving bash aliases.\e[0m"
+    echo -e "\e[32mDone saving bash aliases.\e[0m"
     # Additional tasks...
     echo "Before you go..."
     for i in {1..5}; do
@@ -237,7 +237,7 @@ main() {
     sudo ufw enable || { echo "Failed to configure firewall"; exit 1; }
     echo "Cockpit can be accessed at http://$internal_ip:9090"
     echo -n "SSH is now running at port 14."
-    echo "\e[34mTasks complete, please relogin or reboot.\e[0m"
+    echo -e "\e[34mTasks complete, please relogin or reboot.\e[0m"
 }
 
 main "$@"
