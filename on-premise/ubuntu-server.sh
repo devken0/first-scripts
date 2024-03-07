@@ -244,12 +244,16 @@ main() {
     echo "$(tput setaf 2)Done updating system.$(tput sgr0)"
     install_essential_packages
     echo "$(tput setaf 2)Done installation of packages.$(tput sgr0)"
+    #nextcloud_snap
+    #echo "$(tput setaf 2)Done setting up nextcloud.$(tput sgr0)"
     #rclone_setup
     #echo "$(tput setaf 2)Done setting up rclone.$(tput sgr0)"
     #idrive_setup
     #echo "$(tput setaf 2)Done setting up idrive.$(tput sgr0)"
     secure_system
     echo "$(tput setaf 2)Done securing system.$(tput sgr0)"
+    #pivpn_setup
+    #echo "$(tput setaf 2)Done setting up pivpn.$(tput sgr0)"
     install_docker
     echo "$(tput setaf 2)Done installing docker.$(tput sgr0)"
     #setup_github_backup
