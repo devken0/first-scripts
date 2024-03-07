@@ -44,7 +44,7 @@ install_essential_packages(){
   tar -xf cockpit-sensors.tar.xz cockpit-sensors/dist && \
   mv cockpit-sensors/dist /usr/share/cockpit/sensors && \
   rm -r cockpit-sensors && \
-  rm cockpit-sensors.tar.xz
+  rm cockpit-sensors.tar.xz || { echo "Failed to install cockpit-sensors"; exit 1; }
 
     curl -o setup-repos.sh https://raw.githubusercontent.com/webmin/webmin/master/setup-repos.sh
     sh setup-repos.sh
