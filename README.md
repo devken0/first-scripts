@@ -45,9 +45,9 @@ wget -O - https://github.com/OpenMediaVault-Plugin-Developers/packages/raw/maste
 
 Fedora i3
 
-> Before using the scripts in Fedora
 > Make sure that you have configured the DNF package manager before executing the scripts for a faster installation of system/user packages.
-> Simply add these lines in the `/etc/dnf/dnf.conf` file
+> Simply add these lines in the `/etc/dnf/dnf.conf` file:
+> 
 > ```bash
 > fastestmirror=True
 > deltarpm=True
@@ -57,5 +57,6 @@ Fedora i3
 > ```
 
 ```bash
+bash -c "$(wget -qLO - https://github.com/devken0/first-scripts/raw/main/on-premise/fedora-i3.sh)"
 ```
 
