@@ -63,6 +63,6 @@ bash -c "$(wget -qLO - https://github.com/devken0/first-scripts/raw/main/on-prem
 Ubuntu Server
 
 ```bash
-sudo bash -c "$(wget -qLO - https://github.com/devken0/first-scripts/raw/main/on-premise/ubuntu-server.sh)"
+bash -c "$(wget -qLO - https://github.com/devken0/first-scripts/raw/main/on-premise/ubuntu-server.sh)"
 ```
 
