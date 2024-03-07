@@ -38,7 +38,7 @@ install_essential_packages(){
     curl -sSL https://repo.45drives.com/setup -o setup-repo.sh
     bash setup-repo.sh
     sudo apt-get update
-    sudo apt install cockpit-navigator cockpit-identities cockpit-file-sharing cockpit-machines -y || { echo "Failed to install cockpit apps"; exit 1; } 
+    sudo apt install cockpit-navigator cockpit-identities cockpit-file-sharing cockpit-machines cockpit-sensors -y || { echo "Failed to install cockpit apps"; exit 1; } 
 
     curl -o setup-repos.sh https://raw.githubusercontent.com/webmin/webmin/master/setup-repos.sh
     sh setup-repos.sh
