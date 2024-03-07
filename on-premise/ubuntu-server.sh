@@ -13,6 +13,7 @@ getting_variables(){
     read -p "Preferred hostname: " new_hostname 
     read -p "Preferred hostname alias: " new_alias
     read -p "Please type in preferred origin urls for cockpit (separated by spaces): " origins
+    read -p "Please enter ssh repository url for cloning docker compose files: " compose_repo
 }
 
 update_system(){
@@ -92,7 +93,7 @@ install_docker() {
     cd ~
     git config --global user.name "ken"
     git config --global user.email "ken@minihomebox.lan"
-    git clone https://github.com/devken0/docker-homelab.git || { echo "Failed to clone repository"; exit 1; }
+    git clone $compose_repo || { echo "Failed to clone repository"; exit 1; }
     cd ~/docker-homelab
     docker compose up -d || { echo "Failed to start docker containers"; exit 1; }
 }
