@@ -47,6 +47,13 @@ install_essential_packages(){
     # Add prompt to user if would like to add any more packages
 }
 
+rclone_setup(){
+
+}
+idrive_setup(){
+
+}
+
 secure_system() {
     echo "Securing the system..."
     # Adding ssh key to github
@@ -217,6 +224,10 @@ main() {
     echo "$(tput setaf 2)Done updating system.$(tput sgr0)"
     install_essential_packages
     echo "$(tput setaf 2)Done installation of packages.$(tput sgr0)"
+    rclone_setup
+    echo "$(tput setaf 2)Done setting up rclone.$(tput sgr0)"
+    idrive_setup
+    echo "$(tput setaf 2)Done setting up idrive.$(tput sgr0)"
     secure_system
     echo "$(tput setaf 2)Done securing system.$(tput sgr0)"
     install_docker
