@@ -52,6 +52,14 @@ install_essential_packages(){
     sudo tasksel
     # Add prompt to user if would like to add any more packages
 }
+nextcloud_snap(){
+    sudo apt install snapd
+    sudo snap install nextcloud
+    sudo ufw allow 80/tcp
+    sudo ufw allow 443/tcp
+    sudo nvim /var/snap/nextcloud/current/nextcloud/config/config.php
+    sudo nextcloud.enable-https lets-encrypt
+}
 
 #rclone_setup(){
 #}
@@ -244,8 +252,8 @@ main() {
     echo "$(tput setaf 2)Done updating system.$(tput sgr0)"
     install_essential_packages
     echo "$(tput setaf 2)Done installation of packages.$(tput sgr0)"
-    #nextcloud_snap
-    #echo "$(tput setaf 2)Done setting up nextcloud.$(tput sgr0)"
+    nextcloud_snap
+    echo "$(tput setaf 2)Done setting up nextcloud.$(tput sgr0)"
     #rclone_setup
     #echo "$(tput setaf 2)Done setting up rclone.$(tput sgr0)"
     #idrive_setup
