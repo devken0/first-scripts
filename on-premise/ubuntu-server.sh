@@ -264,6 +264,8 @@ main() {
     #echo "$(tput setaf 2)Done setting up pivpn.$(tput sgr0)"
     install_docker
     echo "$(tput setaf 2)Done installing docker.$(tput sgr0)"
+    # setup paperless-ngx
+    sudo $ bash -c "$(curl --location --silent --show-error https://raw.githubusercontent.com/paperless-ngx/paperless-ngx/main/install-paperless-ngx.sh)"
     #setup_github_backup
     #echo "$(tput setaf 2)Done setting up Github backups.$(tput sgr0)"
     configure_system_settings
