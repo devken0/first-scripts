@@ -11,6 +11,10 @@ CONFIG_FILE="/etc/netplan/00-installer-config.yaml"
 get_variables(){
     read -p "Type your standard username (non-root): " username
     read -p "Preferred custom ssh port: " ssh_port
+    read -p "Preffered nextcloud http port (80): " nextcloud_http_port
+    read -p "Preffered nextcloud https port (443): " nextcloud_https_port
+    read -p "Your nextcloud domain name: " nextcloud_domain_name
+    read -p "Your reverse proxy's ip: " proxy_ip 
     read -p "Preferred hostname: " new_hostname 
     read -p "Preferred hostname alias: " new_alias
     read -p "Please type in preferred origin urls for cockpit (separated by spaces, https only): " origins
@@ -52,13 +56,29 @@ install_essential_packages(){
     sudo tasksel
     # Add prompt to user if would like to add any more packages
 }
-nextcloud_snap(){
+nextcloud_snap_setup(){
     sudo apt install snapd
     sudo snap install nextcloud
-    sudo ufw allow 80/tcp
-    sudo ufw allow 443/tcp
+    sudo ufw allow $nextcloud_http_port/tcp
+    sudo ufw allow $nextcloud_https_port/tcp
+    sudo snap connect nextcloud:removable-media
+    sudo snap set nextcloud ports.http=$nextcloud_http_port ports.https=$nextcloud_https_port
+    #sudo snap connect nextcloud:network-observe
+    # overwrite parameters
+    #sudo nextcloud.occ config:system:set overwritehost --value="example.com:81"
+    #sudo nextcloud.occ config:system:set overwriteprotocol --value="https"
     sudo nvim /var/snap/nextcloud/current/nextcloud/config/config.php
-    sudo nextcloud.enable-https lets-encrypt
+    sudo snap set nextcloud php.memory-limit=512M
+    sudo snap set nextcloud http.compression=true
+    sudo nextcloud.disable-https lets-encrypt
+    sudo snap stop --disable nextcloud.renew-certs
+    # run this commands after the initial setup of nextcloud
+    #sudo nextcloud.occ config:system:set trusted_proxies 0 --value="$proxy_ip"
+    #sudo nextcloud.occ config:system:set trusted_domains 1 --value="$nextcloud_domain_name"
+    #sudo snap set nextcloud mode=debug
+    #sudo snap set nextcloud http.notify-push-reverse-proxy=true
+    #sudo snap set nextcloud nextcloud.cron-interval=10m
+    #sudo nextcloud.enable-https lets-encrypt
 }
 
 #rclone_setup(){
@@ -252,7 +272,7 @@ main() {
     echo "$(tput setaf 2)Done updating system.$(tput sgr0)"
     install_essential_packages
     echo "$(tput setaf 2)Done installation of packages.$(tput sgr0)"
-    nextcloud_snap
+    nextcloud_snap_setup
     echo "$(tput setaf 2)Done setting up nextcloud.$(tput sgr0)"
     #rclone_setup
     #echo "$(tput setaf 2)Done setting up rclone.$(tput sgr0)"
